@@ -27,12 +27,13 @@ void updateStatusMenu()
     String info;
     info.reserve(16);
 
-    for (int index = 0; index < 3; index++) {
+    for (int index = 0; index < DIMMERS; index++) {
         
         char *strValue = new char[4];
-        sprintf(strValue, "%3d.", dimmingInfo[index].value);
-        info.concat(strValue);
-        
+        {
+            sprintf(strValue, "%3d.", dimmingInfo[index].value);
+            info.concat(strValue);
+        }
         delete[] strValue;
     }
 
