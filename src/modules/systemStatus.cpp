@@ -21,23 +21,27 @@ void initializeLeds()
 
 void systemStatusUpdate()
 {
-    bool master = dimmer->master();
-    for (int index = 0; index < DIMMERS; index++) {
+    if (!programMode) {
+        bool master = dimmer->master();
+        for (int index = 0; index < DIMMERS; index++) {
 
-        bool status = dimmingInfo[index].channelStatus;
+            bool status = dimmingInfo[index].channelStatus;
 
-        if (!master && status) {
-            panelLeds->led(index)->blink(200);
-        } else {
-            panelLeds->led(index)->setLedState(status);
+            if (!master && status) {
+                panelLeds->led(index)->blink(200);
+            } else {
+                panelLeds->led(index)->setLedState(status);
+            }
+            dimmingInfo[index] = dimmer->data(index);
+            
+            if (!menuUpdates) {
+                menuUpdates = (dimmingInfo[index].value != oldDimmingInfo[index].value);
+            }
         }
-        dimmingInfo[index] = dimmer->data(index);
-        
-        if (!menuUpdates) {
-            menuUpdates = (dimmingInfo[index].value != oldDimmingInfo[index].value);
-        }
+        panelLeds->led(MASTER)->setLedState(master);
+    } else {
+
     }
-    panelLeds->led(MASTER)->setLedState(master);
 }
 
 void loadDimmerInfo()

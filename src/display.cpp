@@ -37,8 +37,8 @@ void refreshDisplay()
 
 String make_str(String str)
 {
-    for (unsigned int index = 0; index < (16 - str.length()); index++) {
-        str += ' '; 
+    for (unsigned int index = str.length(); index < 16; index++) {
+        str += ' ';
     }
     return str;
 }
