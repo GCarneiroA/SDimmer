@@ -20,15 +20,6 @@ void menuStatus()
     }
 }
 
-/*
-    0 1 2 3 4 5 6 7 8 9 101112131415
-    | | | | | | | | | | | | | | | | 
-    C H 1 . C H 2 . C H 3 . C H 4 .
-    1 0 0 . 1 0 0 . 1 0 0 . 1 0 0 .
-    | | | | | | | | | | | | | | | |
-    0       4       8       12
-*/
-
 void updateStatusMenu()
 {
     displayInfo.line1 = F("CH1.CH2.CH3.MST.");
