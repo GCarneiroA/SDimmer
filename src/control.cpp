@@ -87,11 +87,13 @@ void ch3click()
 
 void masterclick() 
 {
-    dimmer->toggleMaster();
-    panelLeds->sync();
-    #ifdef DEBUG
-        Serial.println("Master click");
-    #endif
+    if (!programMode) {
+        dimmer->toggleMaster();
+        panelLeds->sync();
+        #ifdef DEBUG
+            Serial.println("Master click");
+        #endif
+    }
 }
 
 void checkControls() 
