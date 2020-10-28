@@ -26,9 +26,7 @@
 #include "menu/menu.h"
 #include "menu/infomenu.h"
 #include "menu/statusScreen.h"
-#include "menu/ch1program.h"
-#include "menu/ch2program.h"
-#include "menu/ch3program.h"
+#include "menu/chprogram.h"
 
 #define CH1     0
 #define CH2     1

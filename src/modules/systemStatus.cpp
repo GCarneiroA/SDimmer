@@ -5,7 +5,6 @@
 dimming dimmingInfo[DIMMERS];
 dimming oldDimmingInfo[DIMMERS];
 
-unsigned int currentProgramChannel = -1;
 bool savedData = false;
 bool savedMasterValue;
 bool *savedChannelStatusValues;
@@ -31,7 +30,6 @@ void systemStatusUpdate()
         if (savedData) {
             dimmer->master(savedMasterValue);
             dimmer->channelStatus(savedChannelStatusValues);
-            currentProgramChannel = -1;
             savedData = false;
         }
 
@@ -53,28 +51,23 @@ void systemStatusUpdate()
         panelLeds->led(MASTER)->setLedState(master);
     } else {
         // program mode
-        if (currentProgramChannel != infoMenu.cur) {
-            panelLeds->allOff();
-
-            int dimmerValue = dimmingInfo[currentProgramChannel].value;
-            if (encoder->position() != dimmerValue) {
-                encoder->setPosition(dimmerValue);
-            }
-            currentProgramChannel = infoMenu.cur -1;
+        panelLeds->allOff();
+        int dimmerValue = dimmingInfo[channelToProgram].value;
+        if (encoder->position() != dimmerValue) {
+            encoder->setPosition(dimmerValue);
         }
 
         if (!savedData) {
             savedMasterValue = dimmer->master();
             savedChannelStatusValues = dimmer->channelStatus();
-            //currentProgramChannel = infoMenu.cur -1;
-            if (currentProgramChannel < 0) {
+            if (channelToProgram < 0) {
                 programMode = false;
                 infoMenu.cur = 0;
                 return;
             }
             savedData = true;
         }
-        panelLeds->led(currentProgramChannel)->blink(1000);
+        panelLeds->led(channelToProgram)->blink(1000);
 
         for (int index = 0; index < DIMMERS; index++) {
 
@@ -85,6 +78,7 @@ void systemStatusUpdate()
             }
         }
         dimmer->master(true);
+        panelLeds->led(MASTER)->setLedState(true);
     }
 }
 

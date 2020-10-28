@@ -4,6 +4,8 @@
 
 #include "modules/encoder.h"
 
+extern int channelToProgram;
+
 void checkControls();
 
 void pressEncoderButton();

@@ -3,6 +3,7 @@
 #include "includes.h"
 
 bool programMode;
+int channelToProgram = CH1;
 
 void ch1click();
 void ch2click();
@@ -30,18 +31,13 @@ void encoderChanged(const long position, const Encoder::Direction direction)
         return;
     }
 
-    int currentChannel = infoMenu.cur -1;
     if (position > 255) {
         encoder->setPosition(255);
     } else if (position < 0) {
         encoder->setPosition(0);
     }
     
-    //#ifdef DEBUG
-        //Serial.println(encoder->position());
-    //#endif
-
-    dimmer->setDimmer(currentChannel, encoder->position());
+    dimmer->setDimmer(channelToProgram, encoder->position());
 }
 
 void ch1click()
@@ -50,7 +46,7 @@ void ch1click()
         dimmer->toggleChannelStatus(CH1);
         panelLeds->sync();
     } else {
-
+    channelToProgram = CH1;
     }
     #ifdef DEBUG
         Serial.println("CH1 click");
@@ -63,7 +59,7 @@ void ch2click()
         dimmer->toggleChannelStatus(CH2);
         panelLeds->sync();
     } else {
-
+        channelToProgram = CH2;
     }
     #ifdef DEBUG
         Serial.println("CH2 click");
@@ -76,7 +72,7 @@ void ch3click()
         dimmer->toggleChannelStatus(CH3);
         panelLeds->sync();
     } else {
-        
+        channelToProgram = CH3;
     }
     #ifdef DEBUG
         Serial.println("CH3 click");
@@ -91,16 +87,6 @@ void masterclick()
         Serial.println("Master click");
     #endif
 }
-
-
-
-
-
-
-
-int lastDebounceTime = 0;
-
-// const FP_MENU programMenus[DIMMERS] = { ch1program, ch2program, ch3program };
 
 void checkControls() 
 {
@@ -121,10 +107,10 @@ void pressEncoderButton()
         programMode = false;
         menuUpdates = true;
         // save configurations in eeprom
+        saveDimmerInfo();
 
         // return to menu status
         infoMenu.cur = 0;
-        //infoMenu.menu[infoMenu.cur] = menuStatus;
     }
 }
 
@@ -141,7 +127,7 @@ void enterProgramMode()
     #ifdef DEBUG
         Serial.println(F("program mode enter..."));
     #endif
-
+    
     infoMenu.cur = 1;
-    infoMenu.menu[infoMenu.cur] = ch1program;
+    infoMenu.menu[infoMenu.cur] = chprogram;
 }
