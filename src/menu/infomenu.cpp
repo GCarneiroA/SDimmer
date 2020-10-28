@@ -4,8 +4,7 @@
 
 void infoMenuSelect() 
 {
-    infoMenu.cur = 0;
-    infoMenu.menu[infoMenu.cur] = menuStatus;
+    infoMenu.cur = MENU_STATUS;
     #ifdef SHOW_WELCOME_MESSAGE
         const unsigned long welcome_task = millis();
         // show welcome message

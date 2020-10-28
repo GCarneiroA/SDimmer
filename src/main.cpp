@@ -8,8 +8,9 @@ int main()
     basicHardwareInit();    // init hardware basics
     basicDataInit();        // init variables basics
     loadDimmerInfo();       // load saved dimmer info
+    loadMenuInfo();         // load menuInfo structure
     
-    infoMenuSelect();       // Enter in info menu (welcome message)
+    infoMenu.cur = MENU_WELCOME;
 
     // main application loop
     while (appRunning) {

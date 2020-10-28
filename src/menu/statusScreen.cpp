@@ -13,7 +13,7 @@ void menuStatus()
 
     if (menuUpdates) {
         updateStatusMenu();
-        if (infoMenu.cur == 0) {
+        if (infoMenu.cur == MENU_STATUS) {
             systemUpdated();
         }
         refreshDisplay();

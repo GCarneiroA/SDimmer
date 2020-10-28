@@ -114,8 +114,7 @@ void pressEncoderButton()
         menuUpdates = true;
     
         // save configurations in eeprom
-        infoMenu.cur = 2;
-        infoMenu.menu[infoMenu.cur] = saveInfoMenu;
+        infoMenu.cur = MENU_SAVING;
     }
 }
 
@@ -131,7 +130,6 @@ void enterProgramMode()
     #ifdef DEBUG
         Serial.println(F("program mode enter..."));
     #endif
-    
-    infoMenu.cur = 1;
-    infoMenu.menu[infoMenu.cur] = chprogram;
+
+    infoMenu.cur = MENU_PRGCHS;
 }

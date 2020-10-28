@@ -4,8 +4,7 @@
 
 void saveInfoMenu()
 {
-    infoMenu.cur = 0;
-    infoMenu.menu[infoMenu.cur] = menuStatus;
+    infoMenu.cur = MENU_STATUS;
 
     unsigned long saving_task = millis();
     displayInfo.line1 = F("    SAVING..    ");
@@ -16,7 +15,7 @@ void saveInfoMenu()
     saveDimmerInfo();   // Save data in eeprom
     
     saving_task = millis();
-    displayInfo.line2 = F("    SAVED..     ");
+    displayInfo.line2 = F("     SAVED..    ");
     refreshDisplay();
     while ((millis() - saving_task) < 3000) ;
 

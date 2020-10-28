@@ -62,7 +62,7 @@ void systemStatusUpdate()
             savedChannelStatusValues = dimmer->channelStatus();
             if (channelToProgram < 0) {
                 programMode = false;
-                infoMenu.cur = 0;
+                infoMenu.cur = MENU_STATUS;
                 return;
             }
             savedData = true;

@@ -13,7 +13,7 @@ void chprogram()
 
     if (menuUpdates) {
         updateChMenu();
-        if (infoMenu.cur == 1) {
+        if (infoMenu.cur == MENU_PRGCHS) {
             systemUpdated();
         }
         refreshDisplay();
