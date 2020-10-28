@@ -31,6 +31,6 @@
 // debounce delay for encoder button
 #define DEBOUNCE_DELAY 70
 
-#define DEBUG
+//#define DEBUG
 
 #endif
