@@ -27,6 +27,7 @@
 #include "menu/infomenu.h"
 #include "menu/statusScreen.h"
 #include "menu/chprogram.h"
+#include "menu/saveInfo.h"
 
 #define CH1     0
 #define CH2     1

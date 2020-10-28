@@ -45,6 +45,8 @@ void ch1click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH1);
         panelLeds->sync();
+        systemStatusUpdate();
+        saveDimmerInfo();
     } else {
     channelToProgram = CH1;
     }
@@ -58,6 +60,8 @@ void ch2click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH2);
         panelLeds->sync();
+        systemStatusUpdate();
+        saveDimmerInfo();
     } else {
         channelToProgram = CH2;
     }
@@ -71,6 +75,8 @@ void ch3click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH3);
         panelLeds->sync();
+        systemStatusUpdate();
+        saveDimmerInfo();
     } else {
         channelToProgram = CH3;
     }
@@ -106,11 +112,10 @@ void pressEncoderButton()
         #endif
         programMode = false;
         menuUpdates = true;
+    
         // save configurations in eeprom
-        saveDimmerInfo();
-
-        // return to menu status
-        infoMenu.cur = 0;
+        infoMenu.cur = 2;
+        infoMenu.menu[infoMenu.cur] = saveInfoMenu;
     }
 }
 
@@ -119,7 +124,6 @@ void enterProgramMode()
     if (programMode) {
         return;
     }
-    display->clear();
 
     menuUpdates = true;
     programMode = true;
