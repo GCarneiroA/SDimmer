@@ -27,7 +27,10 @@ Dimmer::~Dimmer()
 
 void Dimmer::setPercentageMode(const bool percentageMode)
 {
-    m_percentageMode = percentageMode;
+    if (m_percentageMode != percentageMode) {
+        m_percentageMode = percentageMode;
+        m_changed = true;
+    }
 }
 
 uint8_t Dimmer::dimmer(const int index) const
@@ -54,8 +57,8 @@ void Dimmer::setDimmer(const int index, const uint8_t value)
     }
     if (m_dimming[index].value != value) {
         m_dimming[index].value = value;
+        m_changed = true;
     }
-    m_changed = true;
 }
 
 void Dimmer::setDimmer(const uint8_t values[]) 
@@ -86,8 +89,10 @@ dimming Dimmer::data(const int index)
 
 void Dimmer::master(bool value) 
 {
-    m_master = value;
-    m_changed = true;
+    if (m_master != value) {
+        m_master = value;
+        m_changed = true;
+    }
 }
 
 bool Dimmer::master() const
@@ -100,8 +105,10 @@ void Dimmer::setChannelStatus(const int channel, bool status)
     if (channel > DIMMERS -1) {
         return;
     }
-    m_dimming[channel].channelStatus = status;
-    m_changed = true;
+    if (m_dimming[channel].channelStatus != status) {
+        m_dimming[channel].channelStatus = status;
+        m_changed = true;
+    }
 }
 
 bool Dimmer::channelStatus(const int channel) const
@@ -129,7 +136,9 @@ void Dimmer::toggleMaster()
 
 void Dimmer::setDimming(const dimming *data) 
 {
-    if (!data) return;
+    if (!data) {
+        return;
+    }
     for (int index = 0; index < DIMMERS; index++) {
         m_dimming[index] = data[index];
     }
@@ -155,6 +164,12 @@ void Dimmer::tick()
                     value = 255;
                 }
             }
+            #ifdef DEBUG
+                Serial.print("Real value in output channel[");
+                Serial.print(index);
+                Serial.print("] is -> ");
+                Serial.println(value);
+            #endif
             analogWrite(m_pinOut[index], value);
         } else {
             analogWrite(m_pinOut[index], 0);
@@ -174,6 +189,9 @@ bool* Dimmer::channelStatus() const
 
 void Dimmer::channelStatus(const bool *status) 
 {
+    if (!status) {
+        return;
+    }
     for (int index = 0; index < DIMMERS; index++) {
         m_dimming[index].channelStatus = status[index];
     }
