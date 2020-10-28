@@ -15,6 +15,9 @@ public:
     Encoder(int pinA, int pinB, int pinSw, unsigned long holdTime);
     ~Encoder();
 
+    void setPercentageMode(const bool percentageMode);
+    bool percentageMode() const;
+
     void begin();
 
     long position();
@@ -43,6 +46,8 @@ private:
     pEncoderChange m_encoderChange;
 
     SingleButton *m_button;
+
+    bool m_percentageMode;
 };
 
 #endif

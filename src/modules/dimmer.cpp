@@ -6,6 +6,7 @@ Dimmer *dimmer;
 Dimmer::Dimmer(const uint16_t pinOut[])
     : m_master(false)
     , m_changed(false)
+    , m_percentageMode(false)
 {
     clear();
     for (uint8_t i = 0; i < DIMMERS; i++) {
@@ -22,6 +23,11 @@ Dimmer::Dimmer(const uint16_t pinOut[])
 Dimmer::~Dimmer() 
 {
     clear();
+}
+
+void Dimmer::setPercentageMode(const bool percentageMode)
+{
+    m_percentageMode = percentageMode;
 }
 
 uint8_t Dimmer::dimmer(const int index) const
@@ -136,15 +142,22 @@ void Dimmer::tick()
         return;
     }
     uint8_t temp[DIMMERS];
-    for (uint8_t i = 0; i < DIMMERS; i++) {
-        temp[i] = m_dimming[i].value;
+    for (uint8_t index = 0; index < DIMMERS; index++) {
+        temp[index] = m_dimming[index].value;
         if (!m_master) {
-            temp[i] = 0;
+            temp[index] = 0;
         }
-        if (m_dimming[i].channelStatus == true) {
-            analogWrite(m_pinOut[i], temp[i]);
+        if (m_dimming[index].channelStatus == true) {
+            byte value = temp[index];
+            if (m_percentageMode) {
+                value = ((255 * temp[index]) / 100);
+                if (value > 255) {
+                    value = 255;
+                }
+            }
+            analogWrite(m_pinOut[index], value);
         } else {
-            analogWrite(m_pinOut[i], 0);
+            analogWrite(m_pinOut[index], 0);
         }
     }
     m_changed = false;

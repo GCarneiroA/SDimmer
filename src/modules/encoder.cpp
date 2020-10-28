@@ -17,6 +17,7 @@ Encoder::Encoder(int pinA, int pinB, int pinSw, unsigned long holdTime)
     , m_positionExtPrev(0)
     , m_encoderChange(nullptr)
     , m_button(nullptr)
+    , m_percentageMode(false)
 {
     pinMode(pinA, INPUT_PULLUP);
     pinMode(pinB, INPUT_PULLUP);
@@ -31,6 +32,16 @@ Encoder::~Encoder()
     if (m_button) {
         delete m_button;
     }
+}
+
+void Encoder::setPercentageMode(const bool percentageMode) 
+{
+    m_percentageMode = percentageMode;
+}
+
+bool Encoder::percentageMode() const
+{
+    return m_percentageMode;
 }
 
 void Encoder::begin() 

@@ -30,9 +30,9 @@ void encoderChanged(const long position, const Encoder::Direction direction)
     if (!programMode) {
         return;
     }
-
-    if (position > 255) {
-        encoder->setPosition(255);
+    int max = encoder->percentageMode() ? 100 : 255;
+    if (position > max) {
+        encoder->setPosition(max);
     } else if (position < 0) {
         encoder->setPosition(0);
     }

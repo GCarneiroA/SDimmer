@@ -18,11 +18,13 @@ void basicHardwareInit()
     const uint16_t encPin[] = ENCODER_PINS;
     encoder = new Encoder(encPin[0], encPin[1], -1, -1);
     encoder->enconderChanged(encoderChanged);
+    encoder->setPercentageMode(true);
     encoder->begin();
 
     // dimmer module initialization
     const uint16_t dimmerPins[] = DIMMER_PINS;
     dimmer = new Dimmer(dimmerPins);
+    dimmer->setPercentageMode(true);
 }
 
 void basicHardwareDeinit()

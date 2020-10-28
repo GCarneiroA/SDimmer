@@ -20,6 +20,8 @@ public:
     /** Destructor */
     ~Dimmer();
 
+    void setPercentageMode(const bool percentageMode);
+
     /** Returns the current dimmer value in index */
     uint8_t dimmer(const int index) const;
 
@@ -69,6 +71,7 @@ private:
 
     bool m_master;
     bool m_changed;
+    bool m_percentageMode;
 };
 
 #endif
