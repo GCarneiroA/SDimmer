@@ -26,9 +26,22 @@ void initalizeControlButtons()
 
 void encoderChanged(const long position, const Encoder::Direction direction)
 {
-    #ifdef DEBUG
-        Serial.println(position);
-    #endif
+    if (!programMode) {
+        return;
+    }
+
+    int currentChannel = infoMenu.cur -1;
+    if (position > 255) {
+        encoder->setPosition(255);
+    } else if (position < 0) {
+        encoder->setPosition(0);
+    }
+    
+    //#ifdef DEBUG
+        //Serial.println(encoder->position());
+    //#endif
+
+    dimmer->setDimmer(currentChannel, encoder->position());
 }
 
 void ch1click()
@@ -36,6 +49,8 @@ void ch1click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH1);
         panelLeds->sync();
+    } else {
+
     }
     #ifdef DEBUG
         Serial.println("CH1 click");
@@ -47,6 +62,8 @@ void ch2click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH2);
         panelLeds->sync();
+    } else {
+
     }
     #ifdef DEBUG
         Serial.println("CH2 click");
@@ -58,6 +75,8 @@ void ch3click()
     if (!programMode) {
         dimmer->toggleChannelStatus(CH3);
         panelLeds->sync();
+    } else {
+        
     }
     #ifdef DEBUG
         Serial.println("CH3 click");

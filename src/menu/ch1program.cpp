@@ -11,8 +11,11 @@ void ch1program()
     checkControls();
     systemStatusUpdate();
 
-    if (programMode) {
+    if (menuUpdates) {
         updateCh1Menu();
+        if (infoMenu.cur == 1) {
+            systemUpdated();
+        }
         refreshDisplay();
     }
 }
@@ -30,16 +33,16 @@ void updateCh1Menu()
         char *strValue = new char[4];
         {
             if (index == CH1) {
-                if ((millis() - task) < 500) {
+                //if ((millis() - task) < 500) {
                     sprintf(strValue, "%3d.", dimmingInfo[index].value);
                     info.concat(strValue);
-                } else {
+                /*} else {
                     memcpy(strValue, "    ", 4);
                     info.concat(strValue);
                 }
                 if ((millis() - task) > 1000) {
                     task = millis();
-                }
+                }*/
             } else {
                 sprintf(strValue, "%3d.", dimmingInfo[index].value);
                 info.concat(strValue);
@@ -49,11 +52,6 @@ void updateCh1Menu()
     }
     
     displayInfo.line2 = info;
-
-    #ifdef DEBUG
-        Serial.println(info.c_str());
-        Serial.println(info.length());
-    #endif
-    
+   
     menuUpdates = false;
 }

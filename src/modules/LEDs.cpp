@@ -46,6 +46,20 @@ SingleLED *PanelLeds::led(const int index)
     return &m_buffer[index];
 }
 
+void PanelLeds::allOn() 
+{
+    for (int index = 0; index < m_ledCount; index++) {
+        m_buffer[index].On();
+    }
+}
+
+void PanelLeds::allOff() 
+{
+    for (int index = 0; index < m_ledCount; index++) {
+        m_buffer[index].Off();
+    }
+}
+
 void PanelLeds::sync() 
 {
     unsigned long time = millis();

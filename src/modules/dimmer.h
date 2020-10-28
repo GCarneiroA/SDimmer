@@ -57,6 +57,9 @@ public:
     /** write dimmer data in outputs */
     void tick();
 
+    bool *channelStatus() const;
+    void channelStatus(const bool *status);
+
 private:
     void clear();
 

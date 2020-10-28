@@ -5,6 +5,11 @@
 dimming dimmingInfo[DIMMERS];
 dimming oldDimmingInfo[DIMMERS];
 
+unsigned int currentProgramChannel = -1;
+bool savedData = false;
+bool savedMasterValue;
+bool *savedChannelStatusValues;
+
 const SingleLED::LEDParam leds[LEDS] =
 {
     // pin, blinkTime
@@ -22,6 +27,14 @@ void initializeLeds()
 void systemStatusUpdate()
 {
     if (!programMode) {
+        // running mode
+        if (savedData) {
+            dimmer->master(savedMasterValue);
+            dimmer->channelStatus(savedChannelStatusValues);
+            currentProgramChannel = -1;
+            savedData = false;
+        }
+
         bool master = dimmer->master();
         for (int index = 0; index < DIMMERS; index++) {
 
@@ -33,14 +46,45 @@ void systemStatusUpdate()
                 panelLeds->led(index)->setLedState(status);
             }
             dimmingInfo[index] = dimmer->data(index);
-            
             if (!menuUpdates) {
                 menuUpdates = (dimmingInfo[index].value != oldDimmingInfo[index].value);
             }
         }
         panelLeds->led(MASTER)->setLedState(master);
     } else {
+        // program mode
+        if (currentProgramChannel != infoMenu.cur) {
+            panelLeds->allOff();
 
+            int dimmerValue = dimmingInfo[currentProgramChannel].value;
+            if (encoder->position() != dimmerValue) {
+                encoder->setPosition(dimmerValue);
+            }
+            currentProgramChannel = infoMenu.cur -1;
+        }
+
+        if (!savedData) {
+            savedMasterValue = dimmer->master();
+            savedChannelStatusValues = dimmer->channelStatus();
+            //currentProgramChannel = infoMenu.cur -1;
+            if (currentProgramChannel < 0) {
+                programMode = false;
+                infoMenu.cur = 0;
+                return;
+            }
+            savedData = true;
+        }
+        panelLeds->led(currentProgramChannel)->blink(1000);
+
+        for (int index = 0; index < DIMMERS; index++) {
+
+            dimmer->setChannelStatus(index, true);          // on all dimmer channels to program
+            dimmingInfo[index] = dimmer->data(index);       // update dimming info with current values in dimmer module
+            if (!menuUpdates) {
+                menuUpdates = (dimmingInfo[index].value != oldDimmingInfo[index].value);
+            }
+        }
+        dimmer->master(true);
     }
 }
 

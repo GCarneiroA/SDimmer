@@ -39,11 +39,5 @@ void updateStatusMenu()
 
     displayInfo.line2 = info;
 
-    #ifdef DEBUG
-        Serial.println(info.c_str());
-        Serial.println(info.length());
-
-    #endif
-
     menuUpdates = false;
 }

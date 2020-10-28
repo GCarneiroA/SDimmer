@@ -113,14 +113,6 @@ void Dimmer::toggleChannelStatus(const int channel)
     }
     m_dimming[channel].channelStatus = !m_dimming[channel].channelStatus;
     m_changed = true;
-
-    #ifdef DEBUG
-        Serial.print("CH: ");
-        Serial.print(channel + 1);
-        Serial.print(" = ");
-        Serial.print(m_dimming[channel].channelStatus);
-        Serial.println();
-    #endif
 }
 
 void Dimmer::toggleMaster() 
@@ -156,6 +148,23 @@ void Dimmer::tick()
         }
     }
     m_changed = false;
+}
+
+bool* Dimmer::channelStatus() const
+{
+    bool *buffer = new bool[DIMMERS];
+    for (int index = 0; index < DIMMERS; index++) {
+        buffer[index] = m_dimming[index].channelStatus;
+    }
+    return buffer;
+}
+
+void Dimmer::channelStatus(const bool *status) 
+{
+    for (int index = 0; index < DIMMERS; index++) {
+        m_dimming[index].channelStatus = status[index];
+    }
+    m_changed = true;
 }
 
 void Dimmer::clear() 

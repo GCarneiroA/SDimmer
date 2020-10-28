@@ -15,6 +15,9 @@ public:
 
     SingleLED *led(const int index);
 
+    void allOn();
+    void allOff();
+
     void sync();
 private:
 

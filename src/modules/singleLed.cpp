@@ -130,7 +130,6 @@ void SingleLED::blink(long blinkTime)
     if (blinkTime > 0) {
         m_blinkTime = blinkTime;
     }
-    m_taskBlink = millis();
     m_changed = true;
 }
 
