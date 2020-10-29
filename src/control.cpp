@@ -13,7 +13,7 @@ void masterclick();
 const SingleButton::ButtonParam panelButtons[BUTTONS + 1] =
 {
   // pin, debounce, holdTime, events(click, hold)
-    { 2,  70,       2000,       { ch1click,             nullptr             }},     // channel 1
+    { 0,  70,       2000,       { ch1click,             nullptr             }},     // channel 1
     { 4,  70,       2000,       { ch2click,             nullptr             }},     // channel 2
     { 7,  70,       2000,       { ch3click,             nullptr             }},     // channel 3
     { 8,  70,       2000,       { masterclick,          nullptr             }},     // master
